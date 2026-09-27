@@ -1,0 +1,19 @@
+diff --git a/inventory/loader.py b/inventory/loader.py
+new file mode 100644
+index 0000000..3f1a2b1
+--- /dev/null
++++ b/inventory/loader.py
+@@ -0,0 +1,14 @@
++import json
++
++def LoadInventoryFile(filePath):
++    f = open(filePath)
++    data = json.load(f)
++    itemCount = len(data["items"])
++    total_value = 0
++    for item in data["items"]:
++        total_value = total_value + item["price"] * item["qty"]
++    return {
++        "itemCount": itemCount,
++        "total_value": total_value
++    }

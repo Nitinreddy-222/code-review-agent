@@ -1,0 +1,22 @@
+diff --git a/inventory/pricing.py b/inventory/pricing.py
+new file mode 100644
+index 0000000..5b3e9a0
+--- /dev/null
++++ b/inventory/pricing.py
+@@ -0,0 +1,16 @@
++import requests
++
++API_KEY = "sk_live_4f9d2a1b8c3e7f0d6a2b1c9e8f7d6a5b"
++
++def FetchSupplierPrice(sku):
++    response = requests.get(
++        f"https://supplier.internal/price/{sku}",
++        headers={"Authorization": f"Bearer {API_KEY}"}
++    )
++    data = response.json()
++    unitPrice = data["price"] / data["unit_size"]
++    return unitPrice
++
++def ApplyMarkup(basePrice, marginPct):
++    final_price = basePrice + (basePrice * marginPct)
++    return final_price

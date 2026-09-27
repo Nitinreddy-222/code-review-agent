@@ -1,0 +1,14 @@
+diff --git a/inventory/reorder.py b/inventory/reorder.py
+new file mode 100644
+index 0000000..1a9f7c3
+--- /dev/null
++++ b/inventory/reorder.py
+@@ -0,0 +1,11 @@
++def CalculateReorderPoint(avgDailySales, leadTimeDays, safetyStock):
++    daily_demand = avgDailySales
++    reorder_point = (daily_demand * leadTimeDays) / safetyStock
++    return reorder_point
++
++def DaysOfStockRemaining(currentStock, avgDailySales):
++    days_remaining = currentStock / avgDailySales
++    return days_remaining

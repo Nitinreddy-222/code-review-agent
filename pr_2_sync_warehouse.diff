@@ -1,0 +1,28 @@
+diff --git a/inventory/sync.py b/inventory/sync.py
+new file mode 100644
+index 0000000..8c2d4e5
+--- /dev/null
++++ b/inventory/sync.py
+@@ -0,0 +1,22 @@
++import requests
++
++def SyncWarehouseStock(warehouseId, items):
++    response = requests.post(
++        "https://warehouse.internal/api/sync",
++        json={"warehouse_id": warehouseId, "items": items}
++    )
++    result = response.json()
++    if result["status"] == "ok":
++        if len(result["updated"]) > 0:
++            for entry in result["updated"]:
++                if entry["qty"] is not None:
++                    if entry["qty"] >= 0:
++                        print(f"Updated {entry['sku']} to {entry['qty']}")
++                    else:
++                        print(f"Negative qty for {entry['sku']}")
++                else:
++                    print(f"Missing qty for {entry['sku']}")
++        else:
++            print("Nothing updated")
++    else:
++        print("Sync failed")

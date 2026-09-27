@@ -1,0 +1,25 @@
+diff --git a/inventory/alerts.py b/inventory/alerts.py
+new file mode 100644
+index 0000000..7d4f1c8
+--- /dev/null
++++ b/inventory/alerts.py
+@@ -0,0 +1,18 @@
++import os
++import requests
++
++SUPPLIER_API_KEY = os.environ["SUPPLIER_API_KEY"]
++
++def fetch_low_stock_items(threshold):
++    try:
++        response = requests.get(
++            "https://warehouse.internal/api/low-stock",
++            headers={"Authorization": f"Bearer {SUPPLIER_API_KEY}"},
++            params={"threshold": threshold},
++            timeout=5
++        )
++        response.raise_for_status()
++    except requests.RequestException as exc:
++        print(f"Failed to fetch low stock items: {exc}")
++        return []
++
++    return response.json().get("items", [])
